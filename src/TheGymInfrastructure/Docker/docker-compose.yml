@@ -7,8 +7,10 @@ services:
       ports:
         - 5433:5432
       environment:
-        - POSTGRES_USER=isuser
-        - POSTGRES_PASSWORD=password
+        POSTGRES_PASSWORD_FILE: /run/secrets/is_db_password
+        POSTGRES_USER: user
+      secrets:
+        - is_db_password
     IS-User-Postgres:
       image: postgres:latest
       volumes:
@@ -16,8 +18,10 @@ services:
       ports:
         - 5434:5432
       environment:
-        - POSTGRES_USER=isthegymuser
-        - POSTGRES_PASSWORD=password
+        POSTGRES_PASSWORD_FILE: /run/secrets/is_user_db_password
+        POSTGRES_USER: user
+      secrets:
+        - is_user_db_password
     TheGym-Postgres:
       image: postgres:latest
       volumes:
@@ -25,8 +29,17 @@ services:
       ports:
         - 5432:5432
       environment:
-        - POSTGRES_USER=user
-        - POSTGRES_PASSWORD=password
+        POSTGRES_PASSWORD_FILE: /run/secrets/thegym_db_password
+        POSTGRES_USER: user
+      secrets:
+        - thegym_db_password
+secrets:
+  is_db_password:
+    file: ./Secrets/is_db_password.txt
+  thegym_db_password:
+    file: ./Secrets/thegym_db_password.txt
+  is_user_db_password:
+    file: ./Secrets/is_user_db_password.txt
 volumes:
   is-postgres-db-data:
   is-user-postgres-db-data:
