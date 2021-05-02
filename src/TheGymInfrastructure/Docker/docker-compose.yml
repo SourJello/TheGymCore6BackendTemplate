@@ -1,0 +1,36 @@
+﻿version: '3.9'
+services:
+    IS-Postgres:
+      image: postgres:latest
+      volumes:
+        - is-postgres-db-data:/var/lib/postgresql/isdata
+      ports:
+        - 5433:5432
+      environment:
+        - POSTGRES_USER=isuser
+        - POSTGRES_PASSWORD=password
+    IS-User-Postgres:
+      image: postgres:latest
+      volumes:
+        - is-user-postgres-db-data:/var/lib/postgresql/isuserdata
+      ports:
+        - 5434:5432
+      environment:
+        - POSTGRES_USER=isthegymuser
+        - POSTGRES_PASSWORD=password
+    TheGym-Postgres:
+      image: postgres:latest
+      volumes:
+        - postgres-db-data:/var/lib/postgresql/data
+      ports:
+        - 5432:5432
+      environment:
+        - POSTGRES_USER=user
+        - POSTGRES_PASSWORD=password
+volumes:
+  is-postgres-db-data:
+  is-user-postgres-db-data:
+  postgres-db-data:
+#use the env variable to move username and passwords to .env file
+#or check out docker secrets but that may require the use of docker swarm 
+#https://stackoverflow.com/questions/22651647/docker-and-securing-passwords
