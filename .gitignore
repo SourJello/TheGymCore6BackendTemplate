@@ -30,9 +30,10 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
-
+#Migrations
+[Mm]igrations/
 #Docker Development Secrets
-[Dd]ocker/Secrets/**
+**/[Dd]ocker/Secrets
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
