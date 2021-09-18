@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheGymApplication", "src\Th
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheGymDomain", "src\TheGymDomain\TheGymDomain.csproj", "{BE8AA7D1-8DC8-4F99-90AD-CE216131A849}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheGymGateway", "src\TheGymGateway\TheGymGateway.csproj", "{599D313C-6441-42D4-B634-D4810EAF3FAB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheGymInfrastructure", "src\TheGymInfrastructure\TheGymInfrastructure.csproj", "{834FF3D7-42C2-4936-B37E-AC467D87D048}"
 EndProject
 Global
@@ -33,10 +31,6 @@ Global
 		{BE8AA7D1-8DC8-4F99-90AD-CE216131A849}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE8AA7D1-8DC8-4F99-90AD-CE216131A849}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE8AA7D1-8DC8-4F99-90AD-CE216131A849}.Release|Any CPU.Build.0 = Release|Any CPU
-		{599D313C-6441-42D4-B634-D4810EAF3FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{599D313C-6441-42D4-B634-D4810EAF3FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{599D313C-6441-42D4-B634-D4810EAF3FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{599D313C-6441-42D4-B634-D4810EAF3FAB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{834FF3D7-42C2-4936-B37E-AC467D87D048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{834FF3D7-42C2-4936-B37E-AC467D87D048}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{834FF3D7-42C2-4936-B37E-AC467D87D048}.Release|Any CPU.ActiveCfg = Release|Any CPU
