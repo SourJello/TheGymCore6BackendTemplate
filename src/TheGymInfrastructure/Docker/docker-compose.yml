@@ -1,14 +1,14 @@
-﻿version: '3'
+version: '3'
 services:
-	Gym-Postgres:
-		image: postgres:latest
-		volumes:
-			- postgres-db-data:/var/lib/postgresql/data
-		ports:
-			- 5432:5432
-		environment:
-			- POSTGRES_USER=user
-			- POSTGRES_PASSWORD=password
+    Gym-Postgres:
+        image: postgres:latest
+        volumes:
+            - postgres-db-data:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=user
+            - POSTGRES_PASSWORD=password
 
 volumes:
-	postgres-db-data:
+    postgres-db-data:

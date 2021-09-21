@@ -58,6 +58,8 @@ namespace TheGymApplication
             //TODO: Add filter to check modelstate validation
             //TODO: create db with a docker file, add migrations, update db, and run this bad boy
 
+            //TODO: setup Context
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
