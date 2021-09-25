@@ -10,7 +10,7 @@ namespace TheGymInfrastructure
         public static void AddPostgresContext(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<TheGymContext>(options =>
-                options.UseNpgsql(connectionString, i => i.MigrationsAssembly("TheGymApplication"))
+                options.UseNpgsql(connectionString, i => i.MigrationsAssembly("TheGymInfrastructure"))
                 .EnableSensitiveDataLogging(true)
                 .EnableDetailedErrors(true)
                 .UseLazyLoadingProxies()
