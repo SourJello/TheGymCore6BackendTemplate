@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -47,19 +48,24 @@ namespace TheGymApplication
             //Postgres configuration
             services.Configure<TheGymPostgresDatabaseSettings>(
                 Configuration.GetSection(nameof(TheGymPostgresDatabaseSettings)));
+            StartupSetup.AddPostgresContext(services, Configuration.GetConnectionString("DefaultConnection"));
 
             //Unit Of Work
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            //Newtonsoft
+            services.AddControllers().AddNewtonsoftJson();
             //Automapper
             AutoMapperSetup.SetupAutoMapper(services);
 
+            services.Configure<ApiBehaviorOptions>(opt =>
+            {
+                opt.SuppressModelStateInvalidFilter = true;
+            });
             //TODO: Add Authorization and Authentication
             //TODO: Add filter to check modelstate validation
             //TODO: create db with a docker file, add migrations, update db, and run this bad boy
-
-            //TODO: setup Context
-
+            //TODO: Add entity validation using fluidvalidator
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,10 +93,7 @@ namespace TheGymApplication
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }
