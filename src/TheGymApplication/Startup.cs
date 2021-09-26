@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using System.Reflection;
+using TheGymApplication.Filters;
 using TheGymDomain.Interfaces;
 using TheGymDomain.Models.Common;
 using TheGymInfrastructure;
@@ -53,7 +54,11 @@ namespace TheGymApplication
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //Newtonsoft
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers(options =>
+                {
+                    options.Filters.Add(typeof(ValidatorActionFilter));
+                })
+                .AddNewtonsoftJson();
             //Automapper
             AutoMapperSetup.SetupAutoMapper(services);
 
