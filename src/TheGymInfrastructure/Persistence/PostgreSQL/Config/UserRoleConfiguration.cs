@@ -8,7 +8,7 @@ namespace TheGymInfrastructure.Persistence.PostgreSQL.Config
 {
     internal class UserRoleConfiguration : EntityConfiguration<UserRole>
     {
-        //TODO: Do I have to specify tablename or will it default to user
+        //TODO: Do I have to specify tablename or will it default to UserRole
         private const string TableName = "UserRole";
         public override void Configure(EntityTypeBuilder<UserRole> builder)
         {
@@ -20,16 +20,16 @@ namespace TheGymInfrastructure.Persistence.PostgreSQL.Config
                 .HasColumnType("varchar(256)")
                 .IsRequired();
         }
-        public class UserValidator : EntityValidator<UserRole>
+    }
+    public class UserRoleValidator : EntityValidator<UserRole>
+    {
+        public UserRoleValidator()
         {
-            public UserValidator()
-            {
-                RuleFor(x => x.RoleName)
-                    .Length(1, 256)
-                    .NotEmpty()
-                    .WithErrorCode("Role name error");
+            RuleFor(x => x.RoleName)
+                .Length(1, 256)
+                .NotEmpty()
+                .WithErrorCode("Role name error");
 
-            }
         }
     }
 }
