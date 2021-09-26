@@ -5,8 +5,7 @@ Libraries, frameworks, and databases used: .Net Core 6 rc1, EF core, postgres, n
 Patterns used: Unit of work and Repositories, Clean(or layered) Architecture, and a Generic Controller. 
 
 Todo:
-- Add fluent validation
-- Add Logging with Serilog
+- Clean up the logging implementation in program.cs
 - Create new template that builds a docker image of the application
-- Add filter to check modelstate validation
 - Maybe Create new tamplate with Authorization and Authentication?
+- Maybe a converter from utc to the  requests local time would be cool if that is possible
