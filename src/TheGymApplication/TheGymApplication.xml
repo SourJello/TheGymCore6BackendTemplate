@@ -4,5 +4,15 @@
         <name>TheGymApplication</name>
     </assembly>
     <members>
+        <member name="T:TheGymApplication.Controllers.UserController">
+            <summary>
+            Uses Generic controller methods for CRUD, can implement custom methods for CRUD with override
+            </summary>
+        </member>
+        <member name="T:TheGymApplication.Controllers.UserRoleController">
+            <summary>
+            Uses Generic controller methods for CRUD, can implement custom methods for CRUD with override
+            </summary>
+        </member>
     </members>
 </doc>
