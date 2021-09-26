@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using TheGymApplication.Filters;
 using TheGymDomain.Interfaces;
 using TheGymInfrastructure;
 using TheGymInfrastructure.Persistence.PostgreSQL;
@@ -54,7 +55,11 @@ namespace TheGymApplication
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //Newtonsoft
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers(options =>
+                {
+                    options.Filters.Add(typeof(ValidatorActionFilter));
+                })
+                .AddNewtonsoftJson();
             //Automapper
             AutoMapperSetup.SetupAutoMapper(services);
 
