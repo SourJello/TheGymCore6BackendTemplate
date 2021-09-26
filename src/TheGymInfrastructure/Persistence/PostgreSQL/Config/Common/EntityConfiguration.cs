@@ -30,13 +30,13 @@ namespace TheGymInfrastructure.Persistence.PostgreSQL.Config.Common
 
             builder.Property(x => x.ModifiedDate);
         }
-        public abstract class EntityValidator<TBase> : AbstractValidator<TBase>
-            where TBase : Entity
+    }
+    public abstract class EntityValidator<TBase> : AbstractValidator<TBase>
+    where TBase : Entity
+    {
+        public EntityValidator()
         {
-            public EntityValidator()
-            {
 
-            }
         }
     }
 }

@@ -1,19 +1,19 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
+using TheGymApplication.Filters;
 using TheGymDomain.Interfaces;
+using TheGymDomain.Models.Common;
 using TheGymInfrastructure;
 using TheGymInfrastructure.Persistence.PostgreSQL;
+using TheGymInfrastructure.Persistence.PostgreSQL.Config.Common;
 
 namespace TheGymApplication
 {
@@ -54,7 +54,11 @@ namespace TheGymApplication
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //Newtonsoft
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers(options =>
+                {
+                    options.Filters.Add(typeof(ValidatorActionFilter));
+                })
+                .AddNewtonsoftJson();
             //Automapper
             AutoMapperSetup.SetupAutoMapper(services);
 
@@ -62,10 +66,11 @@ namespace TheGymApplication
             {
                 opt.SuppressModelStateInvalidFilter = true;
             });
+
+            services.AddValidatorsFromAssemblyContaining<EntityValidator<Entity>>(ServiceLifetime.Transient);
+
             //TODO: Add Authorization and Authentication
-            //TODO: Add filter to check modelstate validation
             //TODO: create db with a docker file, add migrations, update db, and run this bad boy
-            //TODO: Add entity validation using fluidvalidator
             //TODO: Logging
         }
 

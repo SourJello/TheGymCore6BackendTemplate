@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,8 +17,8 @@ namespace TheGymApplication.Controllers
     /// </summary>
     public class UserRoleController : GenericController<UserRole, UserRoleViewModel>
     {
-        public UserRoleController(IUnitOfWork unitOfWork, IMapper mapper)
-            : base(unitOfWork, mapper, unitOfWork.UserRoleRepository)
+        public UserRoleController(IUnitOfWork unitOfWork, IMapper mapper, IValidator<UserRole> validator)
+            : base(unitOfWork, mapper, unitOfWork.UserRoleRepository, validator)
         {
 
         }
