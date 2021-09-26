@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -9,11 +11,19 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using TheGymDomain.Interfaces;
+using TheGymInfrastructure;
+using TheGymInfrastructure.Persistence.PostgreSQL;
 
 namespace TheGymApplication
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -34,11 +44,37 @@ namespace TheGymApplication
 
                 setupAction.IncludeXmlComments(xmlCommentsFullPath);
             });
+
+            //Postgres configuration
+            services.Configure<TheGymPostgresDatabaseSettings>(
+                Configuration.GetSection(nameof(TheGymPostgresDatabaseSettings)));
+            StartupSetup.AddPostgresContext(services, Configuration.GetConnectionString("DefaultConnection"));
+
+            //Unit Of Work
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            //Newtonsoft
+            services.AddControllers().AddNewtonsoftJson();
+            //Automapper
+            AutoMapperSetup.SetupAutoMapper(services);
+
+            services.Configure<ApiBehaviorOptions>(opt =>
+            {
+                opt.SuppressModelStateInvalidFilter = true;
+            });
+            //TODO: Add Authorization and Authentication
+            //TODO: Add filter to check modelstate validation
+            //TODO: create db with a docker file, add migrations, update db, and run this bad boy
+            //TODO: Add entity validation using fluidvalidator
+            //TODO: Logging
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //TODO: Add Authorization and Authentication
+            //TODO: https redirection
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -58,10 +94,7 @@ namespace TheGymApplication
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }
