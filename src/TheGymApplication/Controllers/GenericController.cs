@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,8 +11,7 @@ using TheGymDomain.Models.Common;
 
 namespace TheGymApplication.Controllers
 {
-    //TODO: model validation
-    //TODO: AddRange and EditRange
+
     [Route("[controller]")]
     [ApiController]
     public class GenericController<TEntity, TEntityViewModel> : Controller where TEntity: Entity where TEntityViewModel: EntityViewModel
@@ -18,12 +19,14 @@ namespace TheGymApplication.Controllers
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IMapper _mapper;
         protected readonly IRepository<TEntity> _repository;
+        protected readonly IValidator<TEntity> _validator;
 
-        public GenericController(IUnitOfWork unitOfWork, IMapper mapper, IRepository<TEntity> repository)
+        public GenericController(IUnitOfWork unitOfWork, IMapper mapper, IRepository<TEntity> repository, IValidator<TEntity> validator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _repository = repository;
+            _validator = validator;
         }
 
         [HttpGet("GetById/{Id}")]
@@ -44,12 +47,34 @@ namespace TheGymApplication.Controllers
             return Ok(_mapper.Map<List<TEntityViewModel>>(await _repository.GetAsync()));
         }
 
-        //TODO: model validation
         [HttpPost("Add")]
         public async Task<IActionResult> Add(TEntityViewModel vm)
         {
             var model = _mapper.Map<TEntity>(vm);
-            model = await _repository.AddAsync(model);
+            if (_validator.Validate(model).IsValid)
+            {
+                model = await _repository.AddAsync(model);
+                await _unitOfWork.SaveAsync(User);
+                return Ok();
+            }
+            Log.Error(_validator.Validate(model).Errors.ToString());
+            return BadRequest();
+        }
+
+        [HttpPost("AddRange")]
+        public async Task<IActionResult> AddRange(IEnumerable<TEntityViewModel> vm)
+        {
+            var models = _mapper.Map<List<TEntity>>(vm);
+            foreach(var model in models)
+            {
+                if (!_validator.Validate(model).IsValid)
+                {
+
+                    Log.Error(_validator.Validate(model).Errors.ToString());
+                    return BadRequest();
+                }
+            }
+            await _repository.AddRangeAsync(models);
             await _unitOfWork.SaveAsync(User);
             return Ok();
         }
@@ -64,12 +89,44 @@ namespace TheGymApplication.Controllers
             }
             model = _mapper.Map(vm, model);
 
-            _repository.Update(model);
-            await _unitOfWork.SaveAsync(User);
-            return Ok();
+            if (_validator.Validate(model).IsValid)
+            {
+                _repository.Update(model);
+                await _unitOfWork.SaveAsync(User);
+                return Ok();
+            }
+            Log.Error(_validator.Validate(model).Errors.ToString());
+            return BadRequest();
         }
 
-        //TODO: model validation
+        [HttpPut("Edit")]
+        public virtual async Task<IActionResult> EditRange(IEnumerable<TEntityViewModel> vms)
+        {
+            foreach(var vm in vms)
+            {
+                if (await _repository.GetByIdAsync(vm.Id) == null)
+                {
+                    return BadRequest();
+                }
+            }
+
+            var models = _mapper.Map<List<TEntity>>(vms);
+            foreach(var model in models)
+            {
+                if (!_validator.Validate(model).IsValid)
+                {
+                    Log.Error(_validator.Validate(model).Errors.ToString());
+                    return BadRequest();
+
+                }
+            }
+
+            _repository.UpdateRange(models);
+            await _unitOfWork.SaveAsync(User);
+            return Ok();
+
+        }
+
         [HttpDelete("DeleteById/{id}")]
         public async Task<IActionResult> DeleteById(Guid id)
         {
@@ -83,7 +140,6 @@ namespace TheGymApplication.Controllers
             return Ok();
         }
 
-        //TODO: model validation
         [HttpDelete("DeleteRangeById/{id}")]
         public async Task<IActionResult> DeleteRange(IEnumerable<Guid> idList)
         {
