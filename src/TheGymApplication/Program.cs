@@ -21,16 +21,21 @@ namespace TheGymApplication
 
         private static void ConfigureLogging()
         {
+
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
+                .ReadFrom.Configuration(CreateConfigurataionRoot().Build())
+                .CreateLogger();
+        }
+        private static IConfigurationBuilder CreateConfigurataionRoot()
+        {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{environment}.json", optional: true)
-                .Build();
-
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
+                ;
+            return configuration;
         }
         private static void CreateHost(string[] args)
         {
@@ -41,7 +46,7 @@ namespace TheGymApplication
                 InitializeDb(host);
                 host.Run();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Fatal($"Failed to start {Assembly.GetExecutingAssembly().GetName().Name}", ex);
                 throw;
@@ -54,12 +59,9 @@ namespace TheGymApplication
                 {
                     webBuilder.UseStartup<Startup>();
                 })
-                .ConfigureAppConfiguration(configuration =>
-                {
-                    configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                    configuration.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true);
-                })
-            .UseSerilog();
+                .ConfigureAppConfiguration(configuration => 
+                CreateConfigurataionRoot())
+                .UseSerilog();
 
         private static void InitializeDb(IHost host)
         {
