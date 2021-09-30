@@ -12,12 +12,12 @@ namespace TheGymApplication
     {
         public static void DevelopInitialize(TheGymContext context)
         {
-            if (context.Users.Count() == 0)
-            {
-                SeedUsers(context);
-                Log.Information("Users Seeded");
-            }
             if (context.UserRoles.Count() == 0)
+            {
+                SeedRoles(context);
+                Log.Information("Users Roles Seeded");
+            }
+            if (context.Users.Count() == 0)
             {
                 SeedUsers(context);
                 Log.Information("Users Seeded");
@@ -64,6 +64,13 @@ namespace TheGymApplication
                 },
             };
             context.Users.AddRange(users);
+            context.SaveChanges();
+        }
+
+        public static void Clean(TheGymContext context)
+        {
+            context.UserRoles.RemoveRange(context.UserRoles);
+            context.Users.RemoveRange(context.Users);
             context.SaveChanges();
         }
     }

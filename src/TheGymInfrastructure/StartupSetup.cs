@@ -13,7 +13,7 @@ namespace TheGymInfrastructure
                 options.UseNpgsql(connectionString, i => i.MigrationsAssembly("TheGymInfrastructure"))
                 .EnableSensitiveDataLogging(true)
                 .EnableDetailedErrors(true)
-                .UseLazyLoadingProxies()
+                .UseLazyLoadingProxies(true)
                 );
         }
     }
