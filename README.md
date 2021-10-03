@@ -1,10 +1,28 @@
 # TheGym
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 A template repo for the backend of a web application that will grow as I have time. 
 
-Libraries, frameworks, and databases used: .Net Core 6 rc1, EF core, postgres, npgSql, Automapper, and Newtonsoft.
-Patterns used: Unit of work and Repositories, Clean(or layered) Architecture, and a Generic Controller. 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Requirements: Docker CLI, .Net 6 rc.1 SDK
+## Libraries, Frameworks, and Databases
+
+- [.Net 6](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [EF core](https://docs.microsoft.com/en-us/ef/core/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Automapper](https://automapper.org/)
+- [FluentValidation](https://fluentvalidation.net/)
+- [Newtonsoft](https://www.newtonsoft.com/json)
+
+## Patterns
+- Unit of work and Repositories
+- Clean(or layered) Architecture
+- Generic Controller
+
+## Requirements:
+- Docker CLI
+- .Net 6 rc.1 SDK
 
 To Run:
 - Run '$docker-compose up' from src\TheGymInfrastructure\Docker
