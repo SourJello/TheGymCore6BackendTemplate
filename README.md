@@ -40,7 +40,7 @@ A template repo for the backend of a web application that will grow as I have ti
 - $ dotnet run
 
 ## To Use
-- If you decide to use this template for your own project outside of your local environment remember that the user name and passwords for the database where exposed here. You will need to change them in src/TheGymApplication/appsettings.json and src/TheGymInfrastructure/Docker/docker-compose.yml
+- If you decide to use this template for your own project outside of your local environment remember that the user name and passwords for the database were exposed here. You will need to change them in src/TheGymApplication/appsettings.json and src/TheGymInfrastructure/Docker/docker-compose.yml
 
 ## TODO:
 - Create new template that builds a docker image of the application
