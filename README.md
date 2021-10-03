@@ -40,7 +40,10 @@ TODO:
 - Create new template that builds a docker image of the application
 - Maybe Create new template with Authorization and Authentication?
 - Maybe a converter from utc to the https requests local time would be cool if that is possible
+## Author
 
+- Patrick K
+- 
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
