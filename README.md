@@ -33,7 +33,7 @@ A template repo for the backend of a web application that will grow as I have ti
     create migrations from within the infrastructure project src\TheGymInfrastructure
     (if you don't have VS and the package manager to make your migrations 
     with you can install the EF core tools extension for the dotnet cli
-    here https://docs.microsoft.com/en-us/ef/core/cli/dotnet)
+    [here](https://docs.microsoft.com/en-us/ef/core/cli/dotnet)
 - PM> add-migration new
 - PM> update-database
 - Run the application layer at src\TheGymApplication
