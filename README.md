@@ -24,7 +24,10 @@ A template repo for the backend of a web application that will grow as I have ti
 - Docker CLI
 - .Net 6 rc.1 SDK
 
-To Run:
+## Installation
+- Clone this repo.
+
+## To Run
 - Run '$docker-compose up' from src\TheGymInfrastructure\Docker
 - Use the package manager within visual studios to
     create migrations from within the infrastructure project src\TheGymInfrastructure
@@ -36,14 +39,13 @@ To Run:
 - Run the application layer at src\TheGymApplication
 - $ dotnet run
 
-TODO:
+## TODO:
 - Create new template that builds a docker image of the application
 - Maybe Create new template with Authorization and Authentication?
 - Maybe a converter from utc to the https requests local time would be cool if that is possible
-## Author
 
+## Author
 - Patrick K
 
 ## License
-
 This project is open source and available under the [MIT License](LICENSE).
